@@ -5,79 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:windowSoftInputMode="stateAlwaysVisible">
+    tools:context=".MainActivity">
+
+    <com.chaos.view.PinView
+
+        android:id="@+id/firstPinView"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:cursorVisible="true"
+        android:inputType="number"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cursorWidth="2dp"
+        app:itemCount="5"
+        app:hideLineWhenFilled="true"
+        app:itemHeight="48dp"
+        app:itemRadius="4dp"
+        app:itemSpacing="6dp"
+        app:itemWidth="48dp"
+        app:lineWidth="2dp"
+        app:viewType="rectangle"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="500dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/digit_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/grey_circle"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"
-            android:textSize="20sp"
-            android:cursorVisible="true"
-
-            />
-
-        <EditText
-            android:id="@+id/digit_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/grey_circle"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"
-            android:textSize="20sp"
-            android:cursorVisible="true"
-            android:enabled="false"
-            />
-
-        <EditText
-            android:id="@+id/digit_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/grey_circle"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"
-            android:textSize="20sp"
-            android:cursorVisible="true"
-            android:enabled="false"
-            />
-
-        <EditText
-            android:id="@+id/digit_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/grey_circle"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:inputType="numberPassword"
-            android:maxLength="1"
-            android:textSize="20sp"
-            android:cursorVisible="true"
-            android:enabled="false"
-            />
-
-
-    </LinearLayout>
 </RelativeLayout>
