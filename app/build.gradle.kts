@@ -37,4 +37,8 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("io.github.chaosleung:pinview:1.4.4")
+    implementation("com.airbnb.android:lottie:6.3.0")
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
 }
+
+
