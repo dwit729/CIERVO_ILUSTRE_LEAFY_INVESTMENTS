@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".PinFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+
+        <TextView
+            android:id="@+id/enterPinTextView"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Enter your Pin"
+            android:textAlignment="center"
+            android:textColor="@color/dark_green"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+        <com.chaos.view.PinView
+            android:id="@+id/firstPinView"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:itemBackground="@drawable/pinview_background"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cursorWidth="2dp"
+            app:hideLineWhenFilled="false"
+            app:itemCount="5"
+            app:itemHeight="48dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="6dp"
+            app:itemWidth="48dp"
+            app:lineColor="#428b2b"
+            app:lineWidth="2dp"
+            app:viewType="rectangle"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/enterPinTextView"/>
+
+
+
+    </RelativeLayout>
+</FrameLayout>
