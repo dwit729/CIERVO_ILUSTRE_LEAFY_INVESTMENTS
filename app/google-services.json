@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "335627661661",
+    "project_id": "leafy-investments-20735",
+    "storage_bucket": "leafy-investments-20735.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335627661661:android:dcc3f57032e5be7e62b8b4",
+        "android_client_info": {
+          "package_name": "com.example.ciervo_ilustre_leafy_investments"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8lIOawo-SHoTT6D9O_37oHTS2yITPQVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

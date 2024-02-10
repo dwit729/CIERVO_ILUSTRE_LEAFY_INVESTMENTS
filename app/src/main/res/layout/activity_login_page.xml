@@ -17,7 +17,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="110dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal">
@@ -28,7 +28,7 @@
             android:layout_width="150dp"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/dark_green"
@@ -41,7 +41,7 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/dark_green"
