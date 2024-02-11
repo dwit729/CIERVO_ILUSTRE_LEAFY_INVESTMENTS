@@ -1,7 +1,5 @@
 package com.example.ciervo_ilustre_leafy_investments;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,47 +49,49 @@ public class SignUpFragment extends Fragment {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+if(password.getText().toString().trim().equals(c_pass.getText().toString().trim())){
 
-                String fullName = fullname.getText().toString();
-                String userName = username.getText().toString();
-                String userAge = age.getText().toString();
-                String emailAddress = email.getText().toString();
-                String birthDay = birthday.getText().toString();
-                String passWord = password.getText().toString();
+    String fullName = fullname.getText().toString();
+    String userName = username.getText().toString();
+    String userAge = age.getText().toString();
+    String emailAddress = email.getText().toString();
+    String birthDay = birthday.getText().toString();
+    String passWord = password.getText().toString();
 
-                Map<String, Object> clients = new HashMap<>();
-                clients.put("Name", fullName);
-                clients.put("UserName", userName);
-                clients.put("Password", passWord);
-                clients.put("Email", emailAddress);
-                clients.put("Age", userAge);
-                clients.put("Birthday", birthDay);
+    Map<String, Object> clients = new HashMap<>();
+    clients.put("Name", fullName);
+    clients.put("UserName", userName);
+    clients.put("Password", passWord);
+    clients.put("Email", emailAddress);
+    clients.put("Age", userAge);
+    clients.put("Birthday", birthDay);
 
-                db.collection("clients").add(clients)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
+    DocumentReference reference = db.collection("clients").document();
 
-                        Log.d("success", "added");
-                    }
-                })
-                        .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+    db.collection("clients").add(clients)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
 
-                                Log.d("failed", e.toString());
-                            }
-                        });
+                    Log.d("success", "added" + reference.getId());
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Log.d("failed", e.toString());
+                }
+            });
+}
+else
+{
+    Toast.makeText(getContext().getApplicationContext(),"Password does not match!", Toast.LENGTH_LONG).show();
+}
+
 
             }
         });
-
-
-
-
-
-
-
         return view;
     }
 }
