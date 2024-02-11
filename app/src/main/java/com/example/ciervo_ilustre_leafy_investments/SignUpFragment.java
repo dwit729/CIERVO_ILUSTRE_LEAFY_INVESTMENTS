@@ -72,8 +72,14 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-
                     Log.d("success", "added" + reference.getId());
+                    fullname.setText("");
+                    username.setText("");
+                    age.setText("");
+                    email.setText("");
+                    birthday.setText("");
+                    password.setText("");
+
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
