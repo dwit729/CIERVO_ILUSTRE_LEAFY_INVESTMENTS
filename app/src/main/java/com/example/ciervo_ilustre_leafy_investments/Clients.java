@@ -1,12 +1,14 @@
 package com.example.ciervo_ilustre_leafy_investments;
 
-public class Users {
+public class Clients {
     String fullName, userName, age, birthDay, emailAddress, password;
+    private String documentId;
 
-    public Users() {
+    public Clients() {
     }
 
-    public String getFullName() {
+    public String getFullName()
+    {
         return fullName;
     }
 
@@ -54,7 +56,7 @@ public class Users {
         this.password = password;
     }
 
-    public Users(String fullName, String userName, String age, String birthDay, String emailAddress, String password) {
+    public Clients(String fullName, String userName, String age, String birthDay, String emailAddress, String password) {
         this.fullName = fullName;
         this.userName = userName;
         this.age = age;
@@ -63,4 +65,7 @@ public class Users {
         this.password = password;
     }
 
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
 }

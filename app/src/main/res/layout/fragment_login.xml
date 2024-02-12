@@ -14,6 +14,7 @@
         android:layout_marginRight="30dp"
         >
         <TextView
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="ENTER CREDENTIALS"
@@ -21,6 +22,7 @@
             android:textSize="28dp"
             />
         <EditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textStyle="bold"
@@ -28,6 +30,7 @@
             android:hint="Email"
             />
         <EditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textStyle="bold"
@@ -36,6 +39,7 @@
             android:hint="Password"
             />
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/logIn"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"

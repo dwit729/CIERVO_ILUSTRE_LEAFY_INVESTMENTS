@@ -79,6 +79,7 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
                     email.setText("");
                     birthday.setText("");
                     password.setText("");
+                    c_pass.setText("");
 
                 }
             })
