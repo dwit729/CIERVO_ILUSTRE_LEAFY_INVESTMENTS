@@ -25,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginFragment extends Fragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference clientRef = db.collection("clients");
+    private CollectionReference clientsRef = db.collection("clients");
     private DocumentReference clientsDoc = db.document("");
     View view;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,29 +41,39 @@ public class LoginFragment extends Fragment {
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String e_mail = emailAddress.getText().toString().trim();
-                String p_word = passWord.getText().toString().trim();
-                db.collection("clients")
-                        .whereEqualTo("Email", e_mail.toString()).whereEqualTo("Password", p_word.toString())
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Log.d(TAG, document.getId() + " => " + document.getData());
-                                        Toast.makeText(getContext().getApplicationContext(), "CREDENTIALS MATCH!", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getContext().getApplicationContext(),DashBoard.class);
-                                        startActivity(intent);
+                if(emailAddress.getText().toString().isEmpty()||passWord.getText().toString().isEmpty())
+                {
+                    //NILAGYAN KO LANG NG ONTING VALIDATIONSZZZ
+                    Toast.makeText(getContext().getApplicationContext(), "PLEASE ENTER FIELDS!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String e_mail = emailAddress.getText().toString().trim();
+                    String p_word = passWord.getText().toString().trim();
+                    db.collection("clients")
+                            .whereEqualTo("Email", e_mail.toString()).whereEqualTo("Password", p_word.toString())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            Toast.makeText(getContext().getApplicationContext(), "CREDENTIALS MATCH!", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(getContext().getApplicationContext(),DashBoard.class);
+                                            intent.putExtra("document_ID", document.getId());
+                                            emailAddress.setText("");
+                                            passWord.setText("");
+                                            startActivity(intent);
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                        Toast.makeText(getContext().getApplicationContext(), "CREDENTIALS DOES NOT MATCH!", Toast.LENGTH_LONG).show();
+                                        emailAddress.setText("");
+                                        passWord.setText("");
                                     }
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                    Toast.makeText(getContext().getApplicationContext(), "CREDENTIALS DOES NOT MATCH!", Toast.LENGTH_LONG).show();
-                                    emailAddress.setText("");
-                                    passWord.setText("");
                                 }
-                            }
-                        });
+                            });}
+
 
             }
         });
