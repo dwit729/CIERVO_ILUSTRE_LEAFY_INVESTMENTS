@@ -80,6 +80,8 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
                     birthday.setText("");
                     password.setText("");
                     c_pass.setText("");
+                    //Intent intent = new Intent(getContext().getApplicationContext(), SetPinFragment.class);
+                    //startActivity(intent);
 
                 }
             })
