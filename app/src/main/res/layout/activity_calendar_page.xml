@@ -6,58 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".CalendarPage">
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="310dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
-
-    <EditText
-        android:id="@+id/dateOfBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/calendarView"
-        android:layout_weight="8"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="date"
-        android:hint="Date"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"/>
-
-    <EditText
-        android:id="@+id/nameOfBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dateOfBill"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="text"
-        android:gravity="center"
-        android:hint="Biller Name" />
-
-    <EditText
-        android:id="@+id/amountOfBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nameOfBill"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:gravity="center"
-        android:hint="Amount" />
-
     <Button
-        android:id="@+id/addDueDate"
+        android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/amountOfBill"
-        android:layout_marginTop="40dp"
+        android:text="Add A Due Date"
         android:layout_centerHorizontal="true"
-        android:text="Add" />
+        android:layout_marginTop="50dp"/>
 
-
+    <CalendarView
+        android:id="@+id/calendarOfEvents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

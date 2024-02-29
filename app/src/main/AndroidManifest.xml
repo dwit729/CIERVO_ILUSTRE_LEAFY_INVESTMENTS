@@ -16,6 +16,9 @@
             android:name=".CalendarPage"
             android:exported="false" />
         <activity
+            android:name=".CalendarEventSetter"
+            android:exported="false" />
+        <activity
             android:name=".SetPinFragment"
             android:exported="false" />
         <activity
