@@ -43,6 +43,7 @@ public class DashBoard extends AppCompatActivity {
         EditText birthday = findViewById(R.id.birthday);
         EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
+        EditText pinUser = findViewById(R.id.pinText);
         Button edit = findViewById(R.id.editBtn);
         Button update = findViewById(R.id.updateBtn);
         Button calendar = findViewById(R.id.calendar);
@@ -67,6 +68,7 @@ public class DashBoard extends AppCompatActivity {
                 birthday.setText(value.getString("Birthday"));
                 email.setText(value.getString("Email"));
                 password.setText(value.getString("Password"));
+                pinUser.setText(value.getString("PIN"));
             }
         });
 
@@ -79,6 +81,8 @@ public class DashBoard extends AppCompatActivity {
                 String updated_birthday = birthday.getText().toString().trim();
                 String updated_email = email.getText().toString().trim();
                 String updated_password = password.getText().toString().trim();
+                String updated_PIN = pinUser.getText().toString().trim();
+
 
                 Map<String, Object> update_data = new HashMap<>();
                 update_data.put("Name", updated_name);
@@ -87,6 +91,7 @@ public class DashBoard extends AppCompatActivity {
                 update_data.put("Birthday", updated_birthday);
                 update_data.put("Email", updated_email);
                 update_data.put("Password", updated_password);
+                update_data.put("PIN", updated_PIN);
 
                 clients.document(receivedData).update(update_data);
                 Toast.makeText(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG).show();
@@ -115,16 +120,18 @@ public class DashBoard extends AppCompatActivity {
         EditText birthday = findViewById(R.id.birthday);
         EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
+        EditText userPin = findViewById(R.id.pinText);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 name.setEnabled(true);
-                username.setEnabled(true);;
-                age.setEnabled(true);;
-                birthday.setEnabled(true);;
-                email.setEnabled(true);;
-                password.setEnabled(true);;
+                username.setEnabled(true);
+                age.setEnabled(true);
+                birthday.setEnabled(true);
+                email.setEnabled(true);
+                password.setEnabled(true);
+                userPin.setEnabled(true);
             }
         });
     }
@@ -137,6 +144,8 @@ public class DashBoard extends AppCompatActivity {
         EditText birthday = findViewById(R.id.birthday);
         EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
+        EditText userPin = findViewById(R.id.pinText);
+
 
         DocumentReference documentReference = clients.document(receivedData);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -148,14 +157,16 @@ public class DashBoard extends AppCompatActivity {
                 birthday.setText(value.getString("Birthday"));
                 email.setText(value.getString("Email"));
                 password.setText(value.getString("Password"));
+                userPin.setText(value.getString("PIN"));
             }
         });
         name.setEnabled(false);
-        username.setEnabled(false);;
-        age.setEnabled(false);;
-        birthday.setEnabled(false);;
-        email.setEnabled(false);;
-        password.setEnabled(false);;
+        username.setEnabled(false);
+        age.setEnabled(false);
+        birthday.setEnabled(false);
+        email.setEnabled(false);
+        password.setEnabled(false);
+        userPin.setEnabled(false);
 
     }
 

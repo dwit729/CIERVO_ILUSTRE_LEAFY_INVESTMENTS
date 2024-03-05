@@ -13,28 +13,25 @@
         android:theme="@style/Theme.CIERVO_ILUSTRE_LEAFY_INVESTMENTS"
         tools:targetApi="31">
         <activity
-            android:name=".UserCalendarPage"
-            android:exported="false" />
-        <activity
-            android:name=".Splash_Screen"
-            android:exported="false" />
-        <activity
-            android:name=".LoginPage"
-            android:exported="false" />
-        <activity
-            android:name=".CalendarEventSetter"
+            android:name=".SetPin"
             android:exported="false" />
         <activity
             android:name=".CalendarPage"
             android:exported="false" />
         <activity
-            android:name=".UserLoginSignUp"
+            android:name=".CalendarEventSetter"
+            android:exported="false" />
+        <activity
+            android:name=".SetPinFragment"
+            android:exported="false" />
+        <activity
+            android:name=".Splash_Screen"
             android:exported="false" />
         <activity
             android:name=".DashBoard"
             android:exported="false" />
         <activity
-            android:name=".UserDashboard"
+            android:name=".LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,10 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

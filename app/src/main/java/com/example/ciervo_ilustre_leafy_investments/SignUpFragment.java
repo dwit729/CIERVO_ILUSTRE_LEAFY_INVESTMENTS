@@ -23,7 +23,6 @@ import java.util.Map;
 
 public class SignUpFragment extends Fragment {
 
-
     View view;
     FirebaseFirestore db;
 
@@ -44,6 +43,9 @@ public class SignUpFragment extends Fragment {
         EditText birthday = view.findViewById(R.id.birthday);
         EditText password = view.findViewById(R.id.password);
         EditText c_pass = view.findViewById(R.id.confirmPass);
+        EditText set_Pin = view.findViewById(R.id.setPin);
+
+
 
 
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +59,7 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
     String emailAddress = email.getText().toString();
     String birthDay = birthday.getText().toString();
     String passWord = password.getText().toString();
+    String pinUser = set_Pin.getText().toString();
 
     Map<String, Object> clients = new HashMap<>();
     clients.put("Name", fullName);
@@ -65,6 +68,7 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
     clients.put("Email", emailAddress);
     clients.put("Age", userAge);
     clients.put("Birthday", birthDay);
+    clients.put("PIN", pinUser);
 
     DocumentReference reference = db.collection("clients").document();
 
@@ -73,6 +77,7 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Log.d("success", "added" + reference.getId());
+                    String document_ID = reference.getId();
                     fullname.setText("");
                     username.setText("");
                     age.setText("");
@@ -80,6 +85,8 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
                     birthday.setText("");
                     password.setText("");
                     c_pass.setText("");
+                    set_Pin.setText("");
+
                     //Intent intent = new Intent(getContext().getApplicationContext(), SetPinFragment.class);
                     //startActivity(intent);
 
@@ -101,6 +108,7 @@ else
 
             }
         });
+
         return view;
     }
 }
