@@ -3,8 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#808080</color>
-    <color name="light_green">#dcffae</color>
-    <color name="dark_green">#2E5938</color>
-
+    <color name="light_green">#daecd3</color>
+    <color name="medium_green">#6b9773</color>
+    <color name="dark_green">#0c3a2d</color>
+    <color name="light_blue">#b1e4f6</color>
+    <color name="yellow">#ffba02</color>
+    <color name="bg_green">#c8e9ba</color>
+    <color name="bright_green">#cbec62</color>
 
 </resources>
+

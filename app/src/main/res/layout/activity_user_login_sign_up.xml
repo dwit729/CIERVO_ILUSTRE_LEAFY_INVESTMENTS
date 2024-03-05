@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserLoginSignUp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:background="@color/light_green">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_gravity="center"
+            android:id="@+id/logInSignUpFragmentCon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             />
+
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:itemActiveIndicatorStyle="@drawable/nav_drawer_colors"
+        android:id="@+id/navBarLoginSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/dark_green"
+        app:backgroundTint="@color/dark_green"
+        app:itemBackground="@drawable/nav_bar_colors"
+        app:itemIconTint="@color/white"
+        app:itemRippleColor="@color/medium_green"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/login_signup_menu"
+        />
+</LinearLayout>

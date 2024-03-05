@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment"
+    android:orientation="vertical"
+    android:background="@color/light_green">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/main_display_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="202dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif"
+                android:text="Available Savings"
+                android:textAlignment="center"
+                android:textColor="@color/dark_green"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:layout_width="63dp"
+                android:layout_height="26dp"
+                android:layout_marginEnd="156dp"
+                android:fontFamily="sans-serif"
+                android:text="PHP"
+                android:textAlignment="center"
+                android:textColor="@color/dark_green"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="206dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="28dp"
+                android:fontFamily="sans-serif"
+                android:text="12,000"
+                android:textColor="@color/dark_green"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.36" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="111dp"
+                android:layout_height="102dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/dashboard_tree_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="25dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_display_cardView"
+        app:layout_constraintVertical_bias="0.354">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="95dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/wishlist_button"
+                    android:drawableTop="@drawable/wishlist_icon"
+                    android:text="Wish List"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_green"
+                    android:paddingVertical="15dp"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/light_green"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebuttonstyle"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/calendar_button"
+                    android:drawableTop="@drawable/calendar_icon"
+                    android:text="calendar"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_green"
+                    android:paddingVertical="15dp"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/light_green"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebuttonstyle"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/analystics_button"
+                    android:drawableTop="@drawable/analytics_icon"
+                    android:text="Analytics"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_green"
+                    android:paddingVertical="15dp"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/light_green"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebuttonstyle"
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="95dp"
+                android:orientation="horizontal"
+                >
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cash_in_button"
+                    android:drawableTop="@drawable/cash_in_icon"
+                    android:text="CASH IN"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_green"
+                    android:paddingVertical="15dp"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/light_green"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebuttonstyle"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cash_out_button"
+                    android:drawableTop="@drawable/cash_out_icon"
+                    android:text="CASH OUT"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_green"
+                    android:paddingVertical="15dp"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/light_green"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebuttonstyle"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/history_logs_button"
+                    android:drawableTop="@drawable/history_icon"
+                    android:text="HISTORY"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_green"
+                    android:paddingVertical="15dp"
+                    android:textStyle="bold"
+                    android:drawableTint="@color/light_green"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/imagebuttonstyle"
+                    />
+
+
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/wishlist_dashbaord_view"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                 />
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

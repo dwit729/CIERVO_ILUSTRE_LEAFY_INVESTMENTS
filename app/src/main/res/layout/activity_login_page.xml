@@ -51,5 +51,14 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/giftest"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/pinpagebackground"
+        android:layout_above="@id/frameLayout"
+        android:layout_marginLeft="50dp"
+        />
+
 
 </RelativeLayout>

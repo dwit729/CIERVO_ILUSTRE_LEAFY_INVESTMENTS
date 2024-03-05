@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.ciervo_ilustre_leafy_investments"
-        minSdk = 26
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -48,11 +48,11 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("io.github.chaosleung:pinview:1.4.4")
-    implementation("com.airbnb.android:lottie:6.3.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.applandeo:material-calendar-view:1.7.0")
 
 }
 
