@@ -106,5 +106,15 @@
         android:layout_marginBottom="156dp"
         android:text="Go To Calendar" />
 
+    <EditText
+        android:id="@+id/pinText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:text="PIN"
+        android:enabled="false"/>
+
 
 </RelativeLayout>
