@@ -1,69 +1,162 @@
 package com.example.ciervo_ilustre_leafy_investments;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentUserSignUp#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.chaos.view.PinView;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class FragmentUserSignUp extends Fragment {
 
     View view;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FragmentUserSignUp() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentUserSignUp.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentUserSignUp newInstance(String param1, String param2) {
-        FragmentUserSignUp fragment = new FragmentUserSignUp();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    FirebaseFirestore db;
+    EditText birthday;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_user_sign_up, container, false);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //INSERT CODE HERE
+        Button signUp = view.findViewById(R.id.signup_button);
+        Button bday_picker = view.findViewById(R.id.birthday_picker_button);
+        EditText fullname = view.findViewById(R.id.name_signup);
+        EditText username = view.findViewById(R.id.username_signup);
+        EditText email = view.findViewById(R.id.email_signup);
+        birthday = view.findViewById(R.id.birthday_signUp);
+        birthday.setEnabled(false);
+        EditText password = view.findViewById(R.id.password_signup);
+        EditText c_pass = view.findViewById(R.id.confirm_password_signup);
+        EditText t_savings = view.findViewById(R.id.targetsavings_signup);
+        PinView set_Pin = view.findViewById(R.id.setPinView);
+
+
+        bday_picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(view);
+            }
+        });
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!fullname.getText().toString().isEmpty()||
+                        !username.getText().toString().isEmpty()||
+                        !email.getText().toString().isEmpty()||
+                        !birthday.getText().toString().isEmpty()||
+                        !password.getText().toString().isEmpty()||
+                        !c_pass.getText().toString().isEmpty()||
+                        !set_Pin.getText().toString().isEmpty()||
+                        !t_savings.getText().toString().isEmpty())
+                {
+                if (password.getText().toString().trim().equals(c_pass.getText().toString().trim())) {
+
+                    String fullName = fullname.getText().toString();
+                    String userName = username.getText().toString();
+                    String emailAddress = email.getText().toString();
+                    String birthDay = birthday.getText().toString();
+                    String passWord = password.getText().toString();
+                    String pinUser = set_Pin.getText().toString();
+                    String tSavings = t_savings.getText().toString();
+
+                    Map<String, Object> clients = new HashMap<>();
+                    clients.put("Name", fullName);
+                    clients.put("UserName", userName);
+                    clients.put("Password", passWord);
+                    clients.put("Email", emailAddress);
+                    clients.put("Birthday", birthDay);
+                    clients.put("PIN", pinUser);
+                    clients.put("TargetSavings", tSavings);
+                    clients.put("Balance", "0");
+
+                    DocumentReference reference = db.collection("clients").document();
+
+                    db.collection("clients").add(clients)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("success", "added" + reference.getId());
+                                    String document_ID = reference.getId();
+                                    fullname.setText("");
+                                    username.setText("");
+                                    email.setText("");
+                                    birthday.setText("");
+                                    password.setText("");
+                                    c_pass.setText("");
+                                    set_Pin.setText("");
+                                    t_savings.setText("");
+
+                                    Intent intent = new Intent(getContext().getApplicationContext(), UserDashboard.class);
+                                    intent.putExtra("document_ID", reference.getId());
+                                    startActivity(intent);
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Log.d("failed", e.toString());
+                                }
+                            });
+                } else {
+                    Toast.makeText(getContext().getApplicationContext(), "Password does not match!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+                else
+                {
+                    Toast.makeText(getContext().getApplicationContext(), "Complete your Information!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
 
         return view;
     }
+
+
+    public void showDatePicker(View view1)
+    {
+        DatePickerDialog dialog = new DatePickerDialog(view1.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String date = format.format(new Date(year-1900,month,dayOfMonth));
+
+                birthday.setText(date);
+
+            }
+        }, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+
+        dialog.show();
+    }
+
 }

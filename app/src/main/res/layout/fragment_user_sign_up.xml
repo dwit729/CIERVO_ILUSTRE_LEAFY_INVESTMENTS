@@ -128,6 +128,7 @@
                 android:layout_gravity="center">
 
                 <EditText
+                    android:id="@+id/birthday_signUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -137,6 +138,7 @@
                     android:inputType="datetime"
                     android:textColorHint="@color/medium_green" />
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/birthday_picker_button"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/imagebuttonstyle"
@@ -150,6 +152,32 @@
 
 
             </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:hint="Target Savings"
+                android:textColorHint="@color/medium_green"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/medium_green"
+                app:counterMaxLength="50"
+                app:counterTextColor="@color/medium_green"
+                app:cursorColor="@color/dark_green"
+                app:hintTextColor="@color/medium_green"
+                app:startIconDrawable="@drawable/money_icon"
+                app:startIconTint="@color/dark_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/targetsavings_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/dark_green" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -244,6 +272,7 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_button"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginBottom="20dp"

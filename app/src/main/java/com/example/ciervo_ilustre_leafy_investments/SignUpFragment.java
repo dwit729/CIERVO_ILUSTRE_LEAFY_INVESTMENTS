@@ -55,7 +55,6 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
 
     String fullName = fullname.getText().toString();
     String userName = username.getText().toString();
-    String userAge = age.getText().toString();
     String emailAddress = email.getText().toString();
     String birthDay = birthday.getText().toString();
     String passWord = password.getText().toString();
@@ -66,7 +65,6 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
     clients.put("UserName", userName);
     clients.put("Password", passWord);
     clients.put("Email", emailAddress);
-    clients.put("Age", userAge);
     clients.put("Birthday", birthDay);
     clients.put("PIN", pinUser);
 
@@ -80,7 +78,6 @@ if(password.getText().toString().trim().equals(c_pass.getText().toString().trim(
                     String document_ID = reference.getId();
                     fullname.setText("");
                     username.setText("");
-                    age.setText("");
                     email.setText("");
                     birthday.setText("");
                     password.setText("");

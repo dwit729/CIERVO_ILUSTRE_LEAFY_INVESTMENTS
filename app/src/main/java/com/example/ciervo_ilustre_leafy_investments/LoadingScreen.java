@@ -31,6 +31,6 @@ public class LoadingScreen extends Dialog {
         View view = LayoutInflater.from(context).inflate(R.layout.loading_layout,null);
         loadingIcon = view.findViewById(R.id.loading_icon);
         setContentView(view);
-        Glide.with(view).asGif().load(R.drawable.loading_screen_seed_1).into(loadingIcon);
+        Glide.with(view).asGif().load(R.drawable.loading_screen_seed_2).into(loadingIcon);
     }
 }

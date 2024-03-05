@@ -37,10 +37,10 @@
                 android:textColor="@color/dark_green"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="@+id/Balance_TextView"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintStart_toStartOf="@+id/Balance_TextView"
+                app:layout_constraintTop_toBottomOf="@+id/Balance_TextView" />
 
             <TextView
                 android:layout_width="63dp"
@@ -53,12 +53,12 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="@+id/Balance_TextView"
+                app:layout_constraintTop_toTopOf="@+id/Balance_TextView"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/Balance_TextView"
                 android:layout_width="206dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="28dp"
@@ -78,7 +78,7 @@
                 android:layout_marginStart="16dp"
                 android:src="@drawable/dashboard_tree_1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/Balance_TextView"
                 app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -1,6 +1,7 @@
 package com.example.ciervo_ilustre_leafy_investments;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,16 +17,35 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class UserDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawlay;
+    public static String receivedData;
+
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference clients = db.collection("clients");
+    HomeFragment homeFragment = new HomeFragment();
+    AccountFragment accountFragment = new AccountFragment();
+    PreferencesFragment preferencesFragment = new PreferencesFragment();
+    FAQFragment faqFragment = new FAQFragment();
     NavigationView naview;
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
+        Intent intent = getIntent();
+        if(intent != null) {
+            receivedData = intent.getStringExtra("document_ID");
+        }
 
         drawlay = findViewById(R.id.drawer_layout);
         naview = findViewById(R.id.navigation_view);
@@ -48,6 +68,8 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
 
 
 
+
+
     }
 
 
@@ -56,22 +78,22 @@ public class UserDashboard extends AppCompatActivity implements NavigationView.O
         int itemID = item.getItemId();
         if(itemID == R.id.nav_home)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
 
         }
         else if(itemID == R.id.nav_acc)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accountFragment).commit();
 
         }
         else if(itemID == R.id.nav_faq)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FAQFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, faqFragment).commit();
 
         }
         else if(itemID == R.id.nav_pref)
         {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PreferencesFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, preferencesFragment).commit();
 
         }
         else if(itemID == R.id.nav_logout)
