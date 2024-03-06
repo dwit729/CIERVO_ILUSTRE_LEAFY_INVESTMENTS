@@ -35,6 +35,42 @@ public class HomeFragment extends Fragment {
     TextView balanceView;
     ImageView dashboardgif;
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(UserDashboard.receivedData==null)
+        {
+
+        }
+        else
+        {
+            DocumentReference documentReference = clients.document(UserDashboard.receivedData);
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    balanceView.setText(documentSnapshot.getString("Balance"));
+                    int Balance = Integer.parseInt(documentSnapshot.getString("Balance"));
+                    int Target = Integer.parseInt(documentSnapshot.getString("TargetSavings"));
+
+                    if((Target/3)>Balance)
+                    {
+                        Glide.with(getContext().getApplicationContext()).asGif().load(R.raw.dashboard_tree_1).into(dashboardgif);
+                    }
+                    else if((2*Target/3)>Balance)
+                    {
+                        Glide.with(getContext().getApplicationContext()).asGif().load(R.raw.dashboard_tree_2).into(dashboardgif);
+                    }
+                    else if((4*Target/5)<=Balance)
+                    {
+                        Glide.with(getContext().getApplicationContext()).asGif().load(R.raw.dashboard_tree_3).into(dashboardgif);
+                    }
+                }
+            });
+        }
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,6 +99,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext().getApplicationContext(), UserCalendarPage.class);
                 startActivity(in);
+
             }
         });
         wishList_button.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +107,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext().getApplicationContext(), UserWishListPage.class);
                 startActivity(in);
+
             }
         });
         analytics_button.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +115,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext().getApplicationContext(), UserAnalyticsPage.class);
                 startActivity(in);
+
             }
         });
         cashIn_button.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +123,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext().getApplicationContext(), UserCashInPage.class);
                 startActivity(in);
+
             }
         });
         cashOut_button.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +131,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext().getApplicationContext(), UserCashOutPage.class);
                 startActivity(in);
+
             }
         });
         history_button.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +139,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent in = new Intent(getContext().getApplicationContext(), UserTransactionHistory.class);
                 startActivity(in);
+
             }
         });
 

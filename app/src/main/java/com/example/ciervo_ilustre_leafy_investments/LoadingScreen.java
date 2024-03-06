@@ -20,7 +20,6 @@ public class LoadingScreen extends Dialog {
     public LoadingScreen(@NonNull Context context) {
         super(context);
 
-
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
         getWindow().setAttributes(params);

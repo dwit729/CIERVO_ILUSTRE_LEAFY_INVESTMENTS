@@ -7,58 +7,136 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class AccountFragment extends Fragment {
+    View view;
+    String state = "not editing";
+    EditText nameEdit, userNameEdit, emailEdit, birthdayEdit;
+    Button datepicker, submitButton, editaccButton;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference clientRef = db.collection("clients");
+    DocumentReference documentReference;
+    String ID;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AccountFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        documentReference= clientRef.document(UserDashboard.receivedData);
+        ID = UserDashboard.receivedData;
+        state = "not editing";
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        view = inflater.inflate(R.layout.fragment_account, container, false);
+        nameEdit = view.findViewById(R.id.name_edit);
+        userNameEdit = view.findViewById(R.id.username_edit);
+        emailEdit = view.findViewById(R.id.email_edit);
+        birthdayEdit = view.findViewById(R.id.birthday_edit);
+        datepicker =  view.findViewById(R.id.datePicker);
+        submitButton = view.findViewById(R.id.submit_edit);
+        editaccButton = view.findViewById(R.id.edit_acc_button);
+
+        disableComponents();
+
+        clientRef.document(UserDashboard.receivedData).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                nameEdit.setText(documentSnapshot.getString("Name"));
+                userNameEdit.setText(documentSnapshot.getString("UserName"));
+                birthdayEdit.setText(documentSnapshot.getString("Birthday"));
+                emailEdit.setText(documentSnapshot.getString("Email"));
+            }
+        });
+
+        editaccButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(state.equals("not editing")) {
+                    enableComponents();
+                    editaccButton.setEnabled(false);
+                    state = "editing";
+                }
+
+            }
+        });
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(state.equals("editing"))
+                {
+                    String name = nameEdit.getText().toString();
+                    String username = userNameEdit.getText().toString();
+                    String email = emailEdit.getText().toString();
+                    String bday = birthdayEdit.getText().toString();
+
+                    Map<String, Object> update = new HashMap<String, Object>();
+                    update.put("Name", name);
+                    update.put("Email", email);
+                    update.put("UserName", username);
+                    update.put("Birthday", bday);
+
+                    clientRef.document(UserDashboard.receivedData).update(update).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(getContext().getApplicationContext(), "UPDATED SUCCESFULLY", Toast.LENGTH_LONG).show();
+                            disableComponents();
+                            state = "not editing";
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(getContext().getApplicationContext(), "PRESS EDIT BUTTON", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+        return view;
     }
+
+    public void disableComponents()
+    {
+        nameEdit.setEnabled(false);
+        userNameEdit.setEnabled(false);
+        emailEdit.setEnabled(false);
+        birthdayEdit.setEnabled(false);
+        datepicker.setEnabled(false);
+
+    }
+
+    public void enableComponents()
+    {
+        nameEdit.setEnabled(true);
+        userNameEdit.setEnabled(true);
+        emailEdit.setEnabled(true);
+        datepicker.setEnabled(true);
+
+    }
+
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,12 +40,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.protobuf.StringValue;
 
-import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class UserCalendarPage extends AppCompatActivity {
+public class UserCalendarPage extends AppCompatActivity implements RecyclerViewInterface {
     Toolbar toolbar;
     MyAdapter myAdapter;
     ArrayList<DueDate> dueDateArrayList;
@@ -72,39 +73,38 @@ public class UserCalendarPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_calendar_page);
 
+
         this.receivedData = UserDashboard.receivedData;
 
 
         calendarView = findViewById(R.id.user_calendar);
 
 
-            toolbar = findViewById(R.id.calendar_toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar = findViewById(R.id.calendar_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
                 finish();
             }
-            });
+        });
 
         layout = findViewById(R.id.layout);
         recyclerView = findViewById(R.id.cal_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dueDateArrayList = new ArrayList<DueDate>();
-        myAdapter = new MyAdapter(UserCalendarPage.this, dueDateArrayList);
+        myAdapter = new MyAdapter(UserCalendarPage.this, dueDateArrayList, this);
         recyclerView.setAdapter(myAdapter);
 
-
-
-
-        documentReference= clientRef.document(this.receivedData);
+        documentReference = clientRef.document(this.receivedData);
 
         setEvents();
         EventChangeListener();
+
 
         calendarView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,15 +116,13 @@ public class UserCalendarPage extends AppCompatActivity {
             @Override
             public void onDayClick(EventDay eventDay) {
                 Calendar cal = Calendar.getInstance();
-                if(!eventDay.getCalendar().before(cal.getTime())) {
+                if (eventDay.getCalendar().compareTo(cal) >= 0) {
                     calendar = eventDay.getCalendar();
                     SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                     String selected = format1.format(calendar.getTime());
                     addDueDates(selected, receivedData);
                     setEvents();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Cannot Add to Previous Dates!", Toast.LENGTH_LONG).show();
                 }
             }
@@ -134,18 +132,18 @@ public class UserCalendarPage extends AppCompatActivity {
 
     private void EventChangeListener() {
 
+        dueDateArrayList.clear();
         documentReference.collection("dueDates").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     String name = documentSnapshot.getString("Bill Name");
                     String amount = documentSnapshot.getString("Amount");
                     String category = documentSnapshot.getString("Category");
                     String date = documentSnapshot.getString("Due Date");
                     String id = documentSnapshot.getId();
-                    dueDateArrayList.add(new DueDate(name, amount, category,date,id));
-
+                    dueDateArrayList.add(new DueDate(name, amount, category, date, id));
                     myAdapter.notifyDataSetChanged();
                 }
 
@@ -154,8 +152,7 @@ public class UserCalendarPage extends AppCompatActivity {
         });
     }
 
-    public void addDueDates(String selectedDate, String receivedData)
-    {
+    public void addDueDates(String selectedDate, String receivedData) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View addPopUp = inflater.inflate(R.layout.calendar_popup_layout, null);
 
@@ -164,11 +161,11 @@ public class UserCalendarPage extends AppCompatActivity {
 
         boolean focusable = true;
 
-        PopupWindow popupWindow = new PopupWindow(addPopUp,width,height,focusable);
+        PopupWindow popupWindow = new PopupWindow(addPopUp, width, height, focusable);
         layout.post(new Runnable() {
             @Override
             public void run() {
-                popupWindow.showAtLocation(layout, Gravity.CENTER,0,0);
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
             }
         });
 
@@ -177,6 +174,7 @@ public class UserCalendarPage extends AppCompatActivity {
         EditText bdate = addPopUp.findViewById(R.id.due_Date);
         EditText bName = addPopUp.findViewById(R.id.Bill_Name_Field);
         EditText bAmount = addPopUp.findViewById(R.id.Bill_Amount_Field);
+        bdate.setEnabled(false);
         Spinner category_spin = addPopUp.findViewById(R.id.category_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Bill_Categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -195,24 +193,22 @@ public class UserCalendarPage extends AppCompatActivity {
             public void onClick(View v) {
 
                 String billName = bName.getText().toString();
-                String amount= bAmount.getText().toString();
-                String date = selectedDate;
-                String documentNumber = receivedData;
+                String amount = bAmount.getText().toString();
                 String category = category_spin.getSelectedItem().toString();
 
-
                 Map<String, Object> dueDates = new HashMap<>();
-                dueDates.put("Bill Name" , billName);
-                dueDates.put("Due Date" , date);
-                dueDates.put("Amount" , amount);
-                dueDates.put("Category" , category);
+                dueDates.put("Bill Name", billName);
+                dueDates.put("Due Date", selectedDate);
+                dueDates.put("Amount", amount);
+                dueDates.put("Category", category);
 
-                clientRef.document(documentNumber).collection("dueDates").document().set(dueDates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                clientRef.document(receivedData).collection("dueDates").document().set(dueDates).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getApplicationContext(), "ADDED SUCCESSFULLY", Toast.LENGTH_LONG).show();
                         popupWindow.dismiss();
                         setEvents();
+                        EventChangeListener();
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -223,25 +219,159 @@ public class UserCalendarPage extends AppCompatActivity {
                     }
                 });
 
-
             }
-
         });
 
 
     }
 
-    public void processDueDates()
-    {
+    public void processDueDates(String ID) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View addPopUp = inflater.inflate(R.layout.duedate_edit_popup, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+        boolean focusable = true;
+
+        PopupWindow popupWindow = new PopupWindow(addPopUp, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+
+        EditText editDate = addPopUp.findViewById(R.id.due_Date_edit);
+        EditText editBName = addPopUp.findViewById(R.id.Bill_Name);
+        EditText editBAmount = addPopUp.findViewById(R.id.Bill_Amount);
+        Button delete_button = addPopUp.findViewById(R.id.Delete_DueDate_Button);
+        Button pay_button = addPopUp.findViewById(R.id.Pay_DueDate_Button);
+        Button update_button = addPopUp.findViewById(R.id.Edit_DueDate_Button);
+        Button cancel_button = addPopUp.findViewById(R.id.Cancel_edit_button);
+        Spinner category_spin = addPopUp.findViewById(R.id.category_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Bill_Categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category_spin.setAdapter(adapter);
+
+        String dueAmount;
+
+        String[] categories = getResources().getStringArray(R.array.Bill_Categories);
+
+        Log.d("DEBUGGING", ID);
+
+        clientRef.document(receivedData).collection("dueDates").document(ID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                editDate.setText(documentSnapshot.getString("Due Date"));
+                editBName.setText(documentSnapshot.getString("Bill Name"));
+                category_spin.setSelection(Arrays.asList(categories).indexOf(documentSnapshot.getString("Category")));
+                editBAmount.setText(documentSnapshot.getString("Amount"));
+
+            }
+        });
+
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clientRef.document(receivedData).collection("dueDates").document(ID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getApplicationContext(), "DELETED SUCCESFULLY", Toast.LENGTH_LONG).show();
+                        setEvents();
+                        EventChangeListener();
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+        update_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = editBName.getText().toString();
+                String amount = editBAmount.getText().toString();
+                String category = category_spin.getSelectedItem().toString();
+                String date = editDate.getText().toString();
+
+                Map<String, Object> editDueDates = new HashMap<String, Object>();
+                editDueDates.put("Bill Name", name);
+                editDueDates.put("Due Date", date);
+                editDueDates.put("Amount", amount);
+                editDueDates.put("Category", category);
+
+                clientRef.document(receivedData).collection("dueDates").document(ID).update(editDueDates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(getApplicationContext(), "UPDATED SUCCESFULLY", Toast.LENGTH_LONG).show();
+                        setEvents();
+                        EventChangeListener();
+                        popupWindow.dismiss();
+                    }
+                });
+
+
+            }
+        });
+        pay_button.setOnClickListener(new View.OnClickListener() {
+
+            int dueAmount, newBalance;
+
+            @Override
+            public void onClick(View v) {
+
+                clientRef.document(receivedData).collection("dueDates").document(ID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        dueAmount = Integer.parseInt(documentSnapshot.getString("Amount"));
+                    }
+                });
+                clientRef.document(receivedData).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (Integer.parseInt(documentSnapshot.getString("Balance")) >= dueAmount) {
+                            newBalance = Integer.parseInt(documentSnapshot.getString("Balance")) - dueAmount;
+                            String newSBalance = String.valueOf(newBalance);
+                            Map<String, Object> editBalance = new HashMap<String, Object>();
+                            editBalance.put("Balance", newSBalance);
+                            clientRef.document(receivedData).update(editBalance);
+
+                            clientRef.document(receivedData).collection("dueDates").document(ID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getApplicationContext(), "PAID SUCCESFULLY", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                            setEvents();
+                            EventChangeListener();
+                            popupWindow.dismiss();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "BALANCE INSUFFICIENT SUCCESFULLY", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+
+            }
+        });
+
 
     }
-    public void setEvents()
-    {
+
+    public void setEvents() {
         List<EventDay> events = new ArrayList<>();
         documentReference.collection("dueDates").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     int year = 0;
                     int month = 0;
                     int day = 0;
@@ -256,8 +386,8 @@ public class UserCalendarPage extends AppCompatActivity {
                     day = dateTime.getDayOfMonth();
                     Calendar calendar1 = Calendar.getInstance();
                     calendar1.clear();
-                    calendar1.set(year, month-1, day);
-                    events.add(new EventDay(calendar1,R.drawable.imagebuttonstyle, Color.parseColor("#228B22")));
+                    calendar1.set(year, month - 1, day);
+                    events.add(new EventDay(calendar1, R.drawable.imagebuttonstyle, Color.parseColor("#228B22")));
 
 
                 }
@@ -270,4 +400,11 @@ public class UserCalendarPage extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemClick(int position) {
+        processDueDates(dueDateArrayList.get(position).getId());
+    }
+
+    
 }
+
