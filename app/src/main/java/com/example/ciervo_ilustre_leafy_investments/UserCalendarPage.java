@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import  androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -51,6 +53,10 @@ import java.util.Map;
 
 public class UserCalendarPage extends AppCompatActivity {
     Toolbar toolbar;
+    MyAdapter myAdapter;
+    ArrayList<DueDate> dueDateArrayList;
+
+    RecyclerView recyclerView;
     Date selected_date;
     CalendarView calendarView;
     String receivedData;
@@ -66,24 +72,43 @@ public class UserCalendarPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_calendar_page);
+
+
         this.receivedData = UserDashboard.receivedData;
+
+
         calendarView = findViewById(R.id.user_calendar);
-         toolbar= findViewById(R.id.calendar_toolbar);
-         layout = findViewById(R.id.layout);
-         setSupportActionBar(toolbar);
-         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        documentReference= clientRef.document(this.receivedData);
 
-       setEvents();
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            toolbar = findViewById(R.id.calendar_toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
                 finish();
             }
-        });
+            });
+
+        layout = findViewById(R.id.layout);
+        recyclerView = findViewById(R.id.cal_recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        dueDateArrayList = new ArrayList<DueDate>();
+        myAdapter = new MyAdapter(UserCalendarPage.this, dueDateArrayList);
+        recyclerView.setAdapter(myAdapter);
+
+
+
+
+        documentReference= clientRef.document(this.receivedData);
+
+        setEvents();
+        EventChangeListener();
+
+
 
 
 
@@ -96,14 +121,43 @@ public class UserCalendarPage extends AppCompatActivity {
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
             public void onDayClick(EventDay eventDay) {
-                calendar =eventDay.getCalendar();
-                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-                String selected = format1.format(calendar.getTime());
-                addDueDates(selected, receivedData);
-                setEvents();
+                Calendar cal = Calendar.getInstance();
+                if(!eventDay.getCalendar().before(cal.getTime())) {
+                    calendar = eventDay.getCalendar();
+                    SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                    String selected = format1.format(calendar.getTime());
+                    addDueDates(selected, receivedData);
+                    setEvents();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Cannot Add to Previous Dates!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
+    }
+
+    private void EventChangeListener() {
+
+        documentReference.collection("dueDates").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    String name = documentSnapshot.getString("Bill Name");
+                    String amount = documentSnapshot.getString("Amount");
+                    String category = documentSnapshot.getString("Category");
+                    String date = documentSnapshot.getString("Due Date");
+                    String id = documentSnapshot.getId();
+                    dueDateArrayList.add(new DueDate(name, amount, category,date,id));
+
+                    myAdapter.notifyDataSetChanged();
+                }
+
+
+            }
+        });
     }
 
     public void addDueDates(String selectedDate, String receivedData)
@@ -179,6 +233,10 @@ public class UserCalendarPage extends AppCompatActivity {
 
     }
 
+    public void processDueDates()
+    {
+
+    }
     public void setEvents()
     {
         List<EventDay> events = new ArrayList<>();

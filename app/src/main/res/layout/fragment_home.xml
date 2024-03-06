@@ -75,11 +75,12 @@
                 android:id="@+id/imageView2"
                 android:layout_width="111dp"
                 android:layout_height="102dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="4dp"
                 android:src="@drawable/dashboard_tree_1"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintStart_toEndOf="@+id/Balance_TextView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/Balance_TextView"
+                app:layout_constraintVertical_bias="0.636" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -148,7 +149,7 @@
                     />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/analystics_button"
+                    android:id="@+id/analytics_button"
                     android:drawableTop="@drawable/analytics_icon"
                     android:text="Analytics"
                     android:fontFamily="sans-serif"

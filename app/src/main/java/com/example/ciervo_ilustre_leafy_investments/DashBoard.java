@@ -181,9 +181,7 @@ public class DashBoard extends AppCompatActivity {
                     if (document.exists())
                     {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        Intent intent = new Intent(getApplicationContext(), CalendarPage.class);
-                        intent.putExtra("document_ID", document.getId());
-                        startActivity(intent);
+
                     }
                     else
                     {

@@ -48,6 +48,7 @@ public class Splash_Screen extends AppCompatActivity {
             public void run() {
                 Intent in = new Intent(Splash_Screen.this, UserLoginSignUp.class);
                 startActivity(in);
+                finish();
             }
         }, 3200);
 

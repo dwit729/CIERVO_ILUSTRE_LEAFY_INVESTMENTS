@@ -267,8 +267,7 @@
                 app:lineColor="#428b2b"
                 app:lineWidth="2dp"
                 app:viewType="rectangle"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/enterPinTextView"/>
+                android:layout_centerHorizontal="true"/>
 
 
             <androidx.appcompat.widget.AppCompatButton
