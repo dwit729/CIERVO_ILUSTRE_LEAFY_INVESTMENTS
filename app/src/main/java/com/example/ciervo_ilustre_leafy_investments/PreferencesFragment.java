@@ -44,15 +44,13 @@ public class PreferencesFragment extends Fragment {
         ID = UserDashboard.receivedData;
         state = "not editing";
         view = inflater.inflate(R.layout.fragment_preferences, container, false);
-
-
-
         balanceEdit = view.findViewById(R.id.balance_edit);
         targetEdit = view.findViewById(R.id.target_savings_edit);
         editPrefButton = view.findViewById(R.id.edit_pref_button);
         submitPrefButton = view.findViewById(R.id.submit_button);
-
         disableComponents();
+
+
 
         clientRef.document(UserDashboard.receivedData).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -65,6 +63,7 @@ public class PreferencesFragment extends Fragment {
         editPrefButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                enableComponents();
                 if(state.equals("not editing")) {
                     enableComponents();
                     editPrefButton.setEnabled(false);
@@ -84,7 +83,7 @@ public class PreferencesFragment extends Fragment {
 
                     Map<String, Object> update = new HashMap<String, Object>();
                     update.put("Balance", balance);
-                    update.put("Target Savings", target);
+                    update.put("TargetSavings", target);
 
                     clientRef.document(UserDashboard.receivedData).update(update).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -110,14 +109,13 @@ public class PreferencesFragment extends Fragment {
     {
         balanceEdit.setEnabled(false);
         targetEdit.setEnabled(false);
-        editPrefButton.setEnabled(false);
+
     }
 
     public void enableComponents()
     {
         balanceEdit.setEnabled(true);
         targetEdit.setEnabled(true);
-        editPrefButton.setEnabled(true);
 
     }
 }
