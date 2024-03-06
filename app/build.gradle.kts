@@ -53,6 +53,9 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.applandeo:material-calendar-view:1.7.0")
+    implementation("com.github.blackfizz:eazegraph:1.2.5l@aar")
+    implementation("com.nineoldandroids:library:2.4.0")
+    implementation("com.github.AnyChart:AnyChart-Android:1.1.5")
 
 }
 

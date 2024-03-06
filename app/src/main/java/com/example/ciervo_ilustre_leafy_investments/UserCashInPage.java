@@ -38,6 +38,7 @@ public class UserCashInPage extends AppCompatActivity {
     CollectionReference clientRef = db.collection("clients");
 
     EditText cashIn_name, cashIn_amount;
+    int amount, newBalance;
     Button cashIn_button;
     Toolbar toolbar;
     @Override
@@ -67,36 +68,68 @@ public class UserCashInPage extends AppCompatActivity {
         cashIn_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String currentDateTime = dateFormat.format(new Date());
-                String documentNumber = receivedData.toString().trim();
-                String name_cashIn = cashIn_name.getText().toString();
-                int amount_cashIn = Integer.parseInt(cashIn_amount.getText().toString());
 
-
-                Map<String, Object> activity = new HashMap<>();
-                activity.put("Activity" , "Cash In");
-                activity.put("Name" , name_cashIn);
-                activity.put("Amount" , amount_cashIn);
-                activity.put("Time Stamp" , currentDateTime);
-
-                clientRef.document(documentNumber).collection("activity").document().set(activity).addOnSuccessListener(new OnSuccessListener<Void>() {
+                if (!cashIn_name.getText().toString().trim().isEmpty() && !cashIn_amount.getText().toString().trim().isEmpty())
+                {
+                    createLogs();
+                    clientRef.document(receivedData).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getApplicationContext(), "CASH IN SUCCESSFUL", Toast.LENGTH_LONG).show();
-                        cashIn_name.setText("");
-                        cashIn_amount.setText("");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "di nagana CASH IN beh", Toast.LENGTH_LONG).show();
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        amount = Integer.parseInt(cashIn_amount.getText().toString());
+                        newBalance = Integer.parseInt(documentSnapshot.getString("Balance")) + amount;
+
+                        String newSBalance = String.valueOf(newBalance);
+                        Map<String, Object> editBalance = new HashMap<String, Object>();
+                        editBalance.put("Balance", newSBalance);
+                        clientRef.document(receivedData).update(editBalance).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(getApplicationContext(), "CASH IN SUCCESFUL", Toast.LENGTH_LONG).show();
+                                cashIn_name.setText("");
+                                cashIn_amount.setText("");
+                            }
+                        });
+
 
                     }
                 });
-
+            }
             }
         });
 
     }
+
+
+    public void createLogs()
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        String documentNumber = receivedData.toString().trim();
+        String name_cashIn = cashIn_name.getText().toString();
+        String amount_cashIn = cashIn_amount.getText().toString();
+
+
+        Map<String, Object> activity = new HashMap<>();
+        activity.put("Activity" , "Cash In");
+        activity.put("Name" , name_cashIn);
+        activity.put("Amount" , amount_cashIn);
+        activity.put("Time Stamp" , currentDateTime);
+
+        clientRef.document(documentNumber).collection("activity").document().set(activity).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "CASH IN SUCCESSFUL", Toast.LENGTH_LONG).show();
+                cashIn_name.setText("");
+                cashIn_amount.setText("");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "di nagana CASH IN beh", Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
 }

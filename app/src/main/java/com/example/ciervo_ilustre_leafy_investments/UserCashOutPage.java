@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +26,8 @@ public class UserCashOutPage extends AppCompatActivity {
     EditText cashOut_name, cashOut_amount;
     Button cashOut_button;
     Toolbar toolbar;
+
+    int amount, newBalance;
     String receivedData;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference clientRef = db.collection("clients");
@@ -54,35 +57,73 @@ public class UserCashOutPage extends AppCompatActivity {
         cashOut_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String currentDateTime = dateFormat.format(new Date());
-                String documentNumber = receivedData.toString().trim();
-                String name_cashOut = cashOut_name.getText().toString();
-                int amount_cashOut = Integer.parseInt(cashOut_amount.getText().toString());
 
-                Map<String, Object> activity = new HashMap<>();
-                activity.put("Activity" , "Cash Out");
-                activity.put("Name" , name_cashOut);
-                activity.put("Amount" , amount_cashOut);
-                activity.put("Time Stamp" , currentDateTime);
+                if (!cashOut_name.getText().toString().trim().isEmpty() && !cashOut_amount.getText().toString().trim().isEmpty())
+                {
 
-                clientRef.document(documentNumber).collection("activity").document().set(activity).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getApplicationContext(), "CASH OUT SUCCESSFUL", Toast.LENGTH_LONG).show();
-                        cashOut_name.setText("");
-                        cashOut_amount.setText("");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "di nagana CASH OUT beh", Toast.LENGTH_LONG).show();
 
-                    }
-                });
+                    clientRef.document(receivedData).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+
+                            createLogs();
+                            amount = Integer.parseInt(cashOut_amount.getText().toString());
+                            if (amount <= Integer.parseInt(documentSnapshot.getString("Balance")))
+                            {
+                                newBalance = Integer.parseInt(documentSnapshot.getString("Balance")) - amount;
+
+                                String newSBalance = String.valueOf(newBalance);
+                                Map<String, Object> editBalance = new HashMap<String, Object>();
+                                editBalance.put("Balance", newSBalance);
+                                clientRef.document(receivedData).update(editBalance).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(getApplicationContext(), "CASH OUT SUCCESFUL", Toast.LENGTH_LONG).show();
+                                        cashOut_name.setText("");
+                                        cashOut_amount.setText("");
+                                    }
+                                });
+
+
+
+                        }
+
+                        }
+                    });
+                }
             }
         });
 
-
     }
+
+        public void createLogs()
+        {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateTime = dateFormat.format(new Date());
+            String documentNumber = receivedData.toString().trim();
+            String name_cashOut = cashOut_name.getText().toString();
+            String amount_cashOut = cashOut_amount.getText().toString();
+
+            Map<String, Object> activity = new HashMap<>();
+            activity.put("Activity" , "Cash Out");
+            activity.put("Name" , name_cashOut);
+            activity.put("Amount" , amount_cashOut);
+            activity.put("Time Stamp" , currentDateTime);
+
+            clientRef.document(documentNumber).collection("activity").document().set(activity).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(getApplicationContext(), "CASH OUT SUCCESSFUL", Toast.LENGTH_LONG).show();
+                    cashOut_name.setText("");
+                    cashOut_amount.setText("");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "di nagana CASH OUT beh", Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
 }

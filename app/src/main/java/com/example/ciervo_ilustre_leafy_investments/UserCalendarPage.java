@@ -70,6 +70,7 @@ public class UserCalendarPage extends AppCompatActivity implements RecyclerViewI
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_calendar_page);
 
@@ -92,9 +93,9 @@ public class UserCalendarPage extends AppCompatActivity implements RecyclerViewI
             }
         });
 
+
         layout = findViewById(R.id.layout);
         recyclerView = findViewById(R.id.cal_recyclerView);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         dueDateArrayList = new ArrayList<DueDate>();
         myAdapter = new MyAdapter(UserCalendarPage.this, dueDateArrayList, this);
@@ -346,10 +347,10 @@ public class UserCalendarPage extends AppCompatActivity implements RecyclerViewI
                             clientRef.document(receivedData).collection("dueDates").document(ID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+                                    createLogs(documentSnapshot.getString("Bill Name"), Integer.parseInt(documentSnapshot.getString("Amount")));
                                     Toast.makeText(getApplicationContext(), "PAID SUCCESFULLY", Toast.LENGTH_LONG).show();
                                 }
                             });
-
                             setEvents();
                             EventChangeListener();
                             popupWindow.dismiss();
@@ -405,6 +406,31 @@ public class UserCalendarPage extends AppCompatActivity implements RecyclerViewI
         processDueDates(dueDateArrayList.get(position).getId());
     }
 
-    
+    public void createLogs(String name, int amount)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDateTime = dateFormat.format(new Date());
+        String documentNumber = receivedData.toString().trim();
+
+
+        Map<String, Object> activity = new HashMap<>();
+        activity.put("Activity" , "Cash Out");
+        activity.put("Name" , name);
+        activity.put("Amount" , String.valueOf(amount));
+        activity.put("Time Stamp" , currentDateTime);
+
+        clientRef.document(documentNumber).collection("activity").document().set(activity).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "CASH OUT SUCCESSFUL", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "di nagana CASH OUT beh", Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
 }
 
