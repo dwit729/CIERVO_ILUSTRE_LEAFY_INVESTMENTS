@@ -39,6 +39,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.protobuf.StringValue;
 
+import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,7 +56,6 @@ public class UserCalendarPage extends AppCompatActivity {
     Toolbar toolbar;
     MyAdapter myAdapter;
     ArrayList<DueDate> dueDateArrayList;
-
     RecyclerView recyclerView;
     Date selected_date;
     CalendarView calendarView;
@@ -64,7 +64,6 @@ public class UserCalendarPage extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference clientRef = db.collection("clients");
 
-
     Calendar calendar = Calendar.getInstance();
     DocumentReference documentReference;
 
@@ -72,7 +71,6 @@ public class UserCalendarPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_calendar_page);
-
 
         this.receivedData = UserDashboard.receivedData;
 
@@ -107,10 +105,6 @@ public class UserCalendarPage extends AppCompatActivity {
 
         setEvents();
         EventChangeListener();
-
-
-
-
 
         calendarView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,11 +193,13 @@ public class UserCalendarPage extends AppCompatActivity {
         addDue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String billName = bName.getText().toString();
                 String amount= bAmount.getText().toString();
                 String date = selectedDate;
                 String documentNumber = receivedData;
                 String category = category_spin.getSelectedItem().toString();
+
 
                 Map<String, Object> dueDates = new HashMap<>();
                 dueDates.put("Bill Name" , billName);
@@ -227,7 +223,9 @@ public class UserCalendarPage extends AppCompatActivity {
                     }
                 });
 
+
             }
+
         });
 
 

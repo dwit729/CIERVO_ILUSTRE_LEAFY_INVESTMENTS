@@ -28,7 +28,6 @@ import java.util.concurrent.Executor;
 
 
 public class HomeFragment extends Fragment {
-
     View view;
     Button calendar_button, cashOut_button, cashIn_button, history_button, wishList_button, analytics_button;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -55,7 +54,6 @@ public class HomeFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         if(intent != null) {
-
             UserDashboard.receivedData = intent.getStringExtra("document_ID");
         }
 
