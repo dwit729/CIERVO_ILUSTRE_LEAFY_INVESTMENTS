@@ -112,9 +112,9 @@ public class FragmentUserSignUp extends Fragment {
                                     set_Pin.setText("");
                                     t_savings.setText("");
 
-                                    Intent intent = new Intent(getContext().getApplicationContext(), UserDashboard.class);
-                                    intent.putExtra("document_ID", reference.getId());
+                                    Intent intent = new Intent(getContext().getApplicationContext(), Splash_Screen.class);
                                     startActivity(intent);
+                                    getActivity().finish();
 
                                 }
                             })

@@ -1,5 +1,6 @@
 package com.example.ciervo_ilustre_leafy_investments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,7 +19,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,7 +113,12 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
+        datepicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker(getView());
+            }
+        });
 
 
 
@@ -137,6 +147,22 @@ public class AccountFragment extends Fragment {
         emailEdit.setEnabled(true);
         datepicker.setEnabled(true);
 
+    }
+
+    public void showDatePicker(View view1)
+    {
+        DatePickerDialog dialog = new DatePickerDialog(view1.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String date = format.format(new Date(year-1900,month,dayOfMonth));
+
+                birthdayEdit.setText(date);
+
+            }
+        }, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth());
+
+        dialog.show();
     }
 
 }

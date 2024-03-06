@@ -50,56 +50,11 @@
                 app:startIconTint="@color/dark_green">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/dark_green"
-                    android:id="@+id/name_edit"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:hint="Username"
-                android:textColorHint="@color/medium_green"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/medium_green"
-                app:counterTextColor="@color/medium_green"
-                app:cursorColor="@color/dark_green"
-                app:hintTextColor="@color/medium_green"
-                app:startIconDrawable="@drawable/username_icon"
-                app:startIconTint="@color/dark_green">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/dark_green"
-                    android:id="@+id/username_edit"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                android:hint="Email"
-                android:textColorHint="@color/medium_green"
-                app:boxBackgroundMode="outline"
-                app:boxStrokeColor="@color/medium_green"
-                app:counterTextColor="@color/medium_green"
-                app:cursorColor="@color/dark_green"
-                app:hintTextColor="@color/medium_green"
-                app:startIconDrawable="@drawable/email_icon"
-                app:startIconTint="@color/dark_green">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/dark_green"
-                    android:id="@+id/email_edit"/>
+                    android:id="@+id/balance_edit"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -121,6 +76,7 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/dark_green"
@@ -128,7 +84,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/edit_acc_button"
+                android:id="@+id/edit_pref_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -136,7 +92,20 @@
                 android:background="@color/light_green"
                 android:gravity="center"
                 android:textColor="@color/dark_green"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:text="EDIT DETAILS"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submit_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/dark_green"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textStyle="normal"
+                android:text="SUBMIT"/>
 
 
         </LinearLayout>
