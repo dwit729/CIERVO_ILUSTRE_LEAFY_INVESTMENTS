@@ -61,6 +61,7 @@
                 app:counterMaxLength="50"
                 app:counterTextColor="@color/medium_green"
                 app:cursorColor="@color/dark_green"
+                app:errorEnabled="true"
                 app:hintTextColor="@color/medium_green"
                 app:startIconDrawable="@drawable/account_icon"
                 app:startIconTint="@color/dark_green">
@@ -174,12 +175,13 @@
                     android:id="@+id/targetsavings_signup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     android:textColor="@color/dark_green" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -194,6 +196,8 @@
                 app:cursorColor="@color/dark_green"
                 app:endIconMode="password_toggle"
                 app:endIconTint="@color/medium_green"
+                app:errorEnabled="true"
+                app:helperTextEnabled="true"
                 app:hintTextColor="@color/medium_green"
                 app:startIconDrawable="@drawable/password_icon"
                 app:startIconTint="@color/dark_green">

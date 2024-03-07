@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.chaos.view.PinView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -28,6 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class FragmentUserSignUp extends Fragment {
@@ -43,6 +48,7 @@ public class FragmentUserSignUp extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         //INSERT CODE HERE
+        TextInputLayout passLayout = view.findViewById(R.id.passLayout);
         Button signUp = view.findViewById(R.id.signup_button);
         Button bday_picker = view.findViewById(R.id.birthday_picker_button);
         EditText fullname = view.findViewById(R.id.name_signup);
@@ -55,6 +61,44 @@ public class FragmentUserSignUp extends Fragment {
         EditText t_savings = view.findViewById(R.id.targetsavings_signup);
         PinView set_Pin = view.findViewById(R.id.setPinView);
 
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String pass = s.toString();
+                    if(pass.length()>= 8)
+                    {
+                        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+                        Matcher matcher = pattern.matcher(s);
+                        boolean isStrong = matcher.find();
+                        if(isStrong)
+                        {
+                            passLayout.setHelperText("STRONG PASS");
+                            passLayout.setError(null);
+                        }
+                        else
+                        {
+                            passLayout.setHelperText("WEAK BRO");
+                            passLayout.setError("Weak Password");
+                        }
+                    }
+                    else
+                    {
+                        passLayout.setHelperText("Enter Minimum 8 Character");
+                        passLayout.setError("too small");
+                    }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         bday_picker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,14 +110,19 @@ public class FragmentUserSignUp extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(!fullname.getText().toString().isEmpty()||
-                        !username.getText().toString().isEmpty()||
-                        !email.getText().toString().isEmpty()||
-                        !birthday.getText().toString().isEmpty()||
-                        !password.getText().toString().isEmpty()||
-                        !c_pass.getText().toString().isEmpty()||
-                        !set_Pin.getText().toString().isEmpty()||
-                        !t_savings.getText().toString().isEmpty())
+                if(!fullname.getText().toString().isEmpty()&&
+                        !username.getText().toString().isEmpty()&&
+                        !email.getText().toString().isEmpty()&&
+                        !birthday.getText().toString().isEmpty()&&
+                        !password.getText().toString().isEmpty()&&
+                        !c_pass.getText().toString().isEmpty()&&
+                        !set_Pin.getText().toString().isEmpty()&&
+                        !t_savings.getText().toString().isEmpty()&&
+                        fullname.getError()!=null&&
+                        username.getError()!=null&&
+                        email.getError()!=null&&
+                        password.getError()!=null&&
+                        c_pass.getError()!=null)
                 {
                 if (password.getText().toString().trim().equals(c_pass.getText().toString().trim())) {
 
@@ -132,11 +181,13 @@ public class FragmentUserSignUp extends Fragment {
             }
                 else
                 {
-                    Toast.makeText(getContext().getApplicationContext(), "Complete your Information!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext().getApplicationContext(), "INVALID INPUT", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
+
+
 
 
         return view;
@@ -158,5 +209,9 @@ public class FragmentUserSignUp extends Fragment {
 
         dialog.show();
     }
+
+
+
+
 
 }
